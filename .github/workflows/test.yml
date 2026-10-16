@@ -1,0 +1,40 @@
+name: Test and Build Workflow
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'test.sh'
+      - 'src/**'
+      - '.github/workflows/**'
+
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'test.sh'
+      - 'src/**'
+      - '.github/workflows/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run test script
+        run: bash test.sh
+
+  build:
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build application
+        run: echo "Build completed successfully!"
